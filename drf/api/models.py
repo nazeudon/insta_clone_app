@@ -5,6 +5,22 @@ from django.contrib.auth.models import (
 from django.conf import settings
 
 
+def upload_avatar_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return '/'.join(['avatars',
+                     str(instance.userProfile.id) +
+                     str(instance.nickName) +
+                     str(".") + str(ext)])
+
+
+def upload_post_path(instance, filename):
+    ext = filename.split('.')[-1]
+    return '/'.join(['posts',
+                     str(instance.userPost.id) +
+                     str(instance.title) +
+                     str(".") + str(ext)])
+
+
 # 元々djangomが提供しているクラスをemail認証用に書き換える
 class UserManager(BaseUserManager):
     def create_user(self, email, password=None):
@@ -37,3 +53,50 @@ class User(AbstractBaseUser, PermissionsMixin):
 
     def __str__(self):
         return self.email
+
+
+class Profile(models.Model):
+    nickName = models.CharField(max_length=20)
+    userProfile = models.OneToOneField(
+        settings.AUTH_USER_MODEL,  # djangoのUserモデルとOneToOneで紐付ける
+        related_name="userProfile",
+        on_delete=models.CASCADE  # 紐づいているUserが削除されたとき連動してProfileも削除される
+    )
+    created_on = models.DateTimeField(auto_now_add=True)
+    img = models.ImageField(blank=True, null=True,
+                            upload_to=upload_avatar_path)
+
+    def __str__(self):
+        return self.nickName
+
+
+class Post(models.Model):
+    title = models.CharField(max_length=100)
+    userPost = models.ForeignKey(  # OneToManyを表現するときにForeignKeyを用いる
+        settings.AUTH_USER_MODEL,
+        related_name="userPost",
+        on_delete=models.CASCADE
+    )
+    created_on = models.DateTimeField(auto_now_add=True)
+    img = models.ImageField(blank=True, null=True,
+                            upload_to=upload_post_path)
+    liked = models.ManyToManyField(
+        settings.AUTH_USER_MODEL,
+        related_name="liked", blank=True
+    )
+
+    def __str__(self):
+        return self.title
+
+
+class Comment(models.Model):
+    text = models.CharField(max_length=100)
+    userComment = models.ForeignKey(
+        settings.AUTH_USER_MODEL,
+        related_name="userComment",
+        on_delete=models.CASCADE
+    )
+    post = models.ForeignKey(Post, on_delete=models.CASCADE)
+
+    def __str__(self):
+        return self.text
