@@ -38,14 +38,14 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
-    "rest_framework",
-    "djoser",
-    "api.apps.ApiConfig",  # appを追加する必要がある
-    "corsheaders",
+    'rest_framework',
+    'djoser',
+    'api.apps.ApiConfig',  # appを追加する必要がある
+    'corsheaders',
 ]
 
 MIDDLEWARE = [
-    "corsheaders.middleware.CorsMiddleWare",
+    'corsheaders.middleware.CorsMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
@@ -56,7 +56,7 @@ MIDDLEWARE = [
 ]
 
 CORS_ORIGIN_WHITELIST = [
-    "http://localhost:3000"
+    'http://localhost:3000'
 ]
 
 ROOT_URLCONF = 'api_insta.urls'
@@ -80,19 +80,19 @@ TEMPLATES = [
 WSGI_APPLICATION = 'api_insta.wsgi.application'
 
 REST_FRAMEWORK = {
-    "DEFAULT_PERMISSION_CLASSES": [
+    'DEFAULT_PERMISSION_CLASSES': [
         # ログインしているユーザーにのみviewを見せるようにする設定
-        "rest_framework.permission.IsAuthenticated",
+        'rest_framework.permission.IsAuthenticated',
     ],
-    "DEFAULT_AUTHENTICATION_CLASSES": [
+    'DEFAULT_AUTHENTICATION_CLASSES': [
         # 認証の方法をどうのように行うかの設定
-        "rest_framework_simplejwt.authentication.JWTAuthentication",
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
 }
 
 SIMPLE_JWT = {
-    "AUTH_HEADER_TYPES": ("JWT", ),
-    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=60),
+    'AUTH_HEADER_TYPES': ('JWT', ),
+    'ACCESS_TOKEN_LIFETIME': timedelta(minutes=60),
 }
 
 # Database
@@ -138,11 +138,11 @@ USE_L10N = True
 
 USE_TZ = True
 
-AUTH_USER_MODEL = "api.User"  # カスタム作成したUserモデルを用いることをdjangoに通知する
+AUTH_USER_MODEL = 'api.User'  # カスタム作成したUserモデルを用いることをdjangoに通知する
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/3.0/howto/static-files/
 
 STATIC_URL = '/static/'
-MEDIA_ROOT = os.path.join(BASE_DIR, "media")
-MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = '/media/'
