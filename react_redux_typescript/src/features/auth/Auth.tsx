@@ -25,7 +25,7 @@ import {
 } from "./authSlice";
 
 //モーダルウィンドウの見た目をカスタム
-const suctomStyles = {
+const customStyles = {
   overlay: {
     backgroundColor: "#777777",
   },
@@ -46,7 +46,116 @@ const Auth: React.FC = () => {
   const isLoadingAuth = useSelector(selectIsLoadingAuth);
   const dispatch: AppDispatch = useDispatch();
 
-  return <div></div>;
+  return (
+    <>
+      <Modal //新規登録モーダル
+        isOpen={openSignUp}
+        //モーダル以外の箇所をクリックした時
+        onRequestClose={async () => {
+          await dispatch(resetOpenSignUp());
+        }}
+        style={customStyles}
+      >
+        <Formik
+          initialErrors={{ email: "required" }}
+          initialValues={{ email: "", password: "" }}
+          onSubmit={async (values) => {
+            await dispatch(fetchCredStart());
+            const resultReg = await dispatch(fetchAsyncRegister(values));
+
+            if (fetchAsyncRegister.fulfilled.match(resultReg)) {
+              await dispatch(fetchAsyncLogin(values));
+              await dispatch(fetchAsyncCreateProf({ nickName: "anonymous" }));
+
+              await dispatch(fetchAsyncGetProfs());
+              await dispatch(fetchAsyncGetMyProf());
+            }
+            await dispatch(fetchCredEnd);
+            await dispatch(resetOpenSignUp);
+          }}
+          validationSchema={Yup.object().shape({
+            email: Yup.string()
+              .email("emial format is wrong")
+              .required("email is must"),
+            password: Yup.string().required("passwrod is must").min(4),
+          })}
+        >
+          {({
+            handleSubmit,
+            handleChange,
+            handleBlur,
+            values,
+            errors,
+            touched,
+            isValid,
+          }) => (
+            <div>
+              <form onSubmit={handleSubmit}>
+                <div className={styles.auth_signUp}>
+                  <h1 className={styles.auth_title}>SNS clone</h1>
+                  <br />
+                  {/* クルクルアイコン */}
+                  <div className={styles.auth_progress}>
+                    {isLoadingAuth && <CircularProgress />}
+                  </div>
+                  <br />
+
+                  <TextField
+                    placeholder="email"
+                    type="input"
+                    name="email"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.email}
+                  />
+                  <br />
+                  {touched.email && errors.email ? (
+                    <div className={styles.auth_error}>{errors.email}</div>
+                  ) : null}
+
+                  <TextField
+                    placeholder="password"
+                    type="input"
+                    name="password"
+                    onChange={handleChange}
+                    onBlur={handleBlur}
+                    value={values.password}
+                  />
+                  <br />
+                  {touched.password && errors.password ? (
+                    <div className={styles.auth_error}>{errors.password}</div>
+                  ) : null}
+                  <br />
+                  <br />
+
+                  <Button
+                    variant="contained"
+                    color="primary"
+                    disabled={!isValid}
+                    type="submit"
+                  >
+                    Register
+                  </Button>
+                  <br />
+                  <br />
+
+                  <span
+                    className={styles.auth_text}
+                    onClick={async () => {
+                      await dispatch(setOpenSignIn());
+                      await dispatch(resetOpenSignUp());
+                    }}
+                  >
+                    You already have an acount ?
+                  </span>
+                </div>
+              </form>
+            </div>
+          )}
+        </Formik>
+      </Modal>
+    </>
+  );
 };
 
 export default Auth;
