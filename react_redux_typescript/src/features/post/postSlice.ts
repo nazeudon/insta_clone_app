@@ -179,7 +179,7 @@ export const {
   resetOpenNewPost,
 } = postSlice.actions;
 
-export const selectIsLoadingAuth = (state: RootState) =>
+export const selectIsLoadingPost = (state: RootState) =>
   state.post.isLoadingPost;
 export const selectOpenNewPost = (state: RootState) => state.post.openNewPost;
 export const selectPosts = (state: RootState) => state.post.posts;

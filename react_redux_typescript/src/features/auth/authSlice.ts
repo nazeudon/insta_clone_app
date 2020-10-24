@@ -183,7 +183,7 @@ export const selectIsLoadingAuth = (state: RootState) =>
 export const selectOpenSignIn = (state: RootState) => state.auth.openSignIn;
 export const selectOpenSignUp = (state: RootState) => state.auth.openSignUp;
 export const selectOpenProfile = (state: RootState) => state.auth.openProfile;
-export const selectMyprofile = (state: RootState) => state.auth.myprofile;
+export const selectProfile = (state: RootState) => state.auth.myprofile;
 export const selectProfiles = (state: RootState) => state.auth.profiles;
 
 export default authSlice.reducer;
