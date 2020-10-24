@@ -70,8 +70,8 @@ const Auth: React.FC = () => {
               await dispatch(fetchAsyncGetProfs());
               await dispatch(fetchAsyncGetMyProf());
             }
-            await dispatch(fetchCredEnd);
-            await dispatch(resetOpenSignUp);
+            await dispatch(fetchCredEnd());
+            await dispatch(resetOpenSignUp());
           }}
           validationSchema={Yup.object().shape({
             email: Yup.string()
@@ -174,8 +174,8 @@ const Auth: React.FC = () => {
               await dispatch(fetchAsyncGetProfs());
               await dispatch(fetchAsyncGetMyProf());
             }
-            await dispatch(fetchCredEnd);
-            await dispatch(resetOpenSignIn);
+            await dispatch(fetchCredEnd());
+            await dispatch(resetOpenSignIn());
           }}
           validationSchema={Yup.object().shape({
             email: Yup.string()
