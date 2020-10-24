@@ -19,3 +19,31 @@ export interface PROPS_PROFILE {
 export interface PROPS_NICKNAME {
   nickName: string;
 }
+
+// postSlice.ts
+export interface PROPS_NEWPOST {
+  title: string;
+  img: File | null;
+}
+
+export interface PROPS_LIKED {
+  id: number; //投稿id
+  title: string;
+  current: number[]; //すでにイイねしているユーザのid
+  new: number; //新規でイイねしたユーザのid
+}
+
+export interface PROPS_COMMENT {
+  text: string;
+  post: number; //投稿id?
+}
+
+// Post.tsx
+export interface PROPS_POST {
+  postId: number; //投稿id
+  loginId: number; //ログインユーザid
+  userPost: number; //投稿ユーザのid
+  title: string;
+  imageUrl: string;
+  liled: number[];
+}
