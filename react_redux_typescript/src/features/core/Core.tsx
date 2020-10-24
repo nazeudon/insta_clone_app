@@ -32,6 +32,7 @@ import {
   resetOpenNewPost,
   fetchAsyncGetPosts,
   fetchAsyncGetComments,
+  selectOpenNewPost,
 } from "../post/postSlice";
 
 const StyledBadge = withStyles((theme) => ({
@@ -90,6 +91,37 @@ const Core: React.FC = () => {
   return (
     <div>
       <Auth />
+      <div className={styles.core_header}>
+        <h1 className={styles.core_title}>SNS clone</h1>
+        {profile?.nickName ? (
+          <>
+            <button
+              className={styles.core_btnModal}
+              onClick={() => {
+                dispatch(setOpenNewPost());
+                dispatch(resetOpenProfile());
+              }}
+            >
+              <MdAddAPhoto />
+            </button>
+            <div className={styles.core_logout}>
+              <Button
+                onClick={() => {
+                  localStorage.removeItem("localJWT");
+                  dispatch(editNickname(""));
+                  dispatch(resetOpenProfile());
+                  dispatch(resetOpenNewPost());
+                  dispatch(setOpenSignIn());
+                }}
+              >
+                Logout
+              </Button>
+            </div>
+          </>
+        ) : (
+          <div></div>
+        )}
+      </div>
     </div>
   );
 };
