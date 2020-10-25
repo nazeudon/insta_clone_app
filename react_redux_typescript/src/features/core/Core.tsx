@@ -34,6 +34,7 @@ import {
   fetchAsyncGetComments,
   selectOpenNewPost,
 } from "../post/postSlice";
+import { PostAdd } from "@material-ui/icons";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
@@ -105,6 +106,7 @@ const Core: React.FC = () => {
               <MdAddAPhoto />
             </button>
             <div className={styles.core_logout}>
+              {(isLoadingPost || isloadingAuth) && <CircularProgress />}
               <Button
                 onClick={() => {
                   localStorage.removeItem("localJWT");
@@ -116,12 +118,71 @@ const Core: React.FC = () => {
               >
                 Logout
               </Button>
+              <button
+                className={styles.core_btnModal}
+                onClick={() => {
+                  dispatch(setOpenProfile());
+                  dispatch(resetOpenNewPost());
+                }}
+              >
+                <StyledBadge
+                  overlap="circle"
+                  anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "right",
+                  }}
+                  variant="dot"
+                >
+                  <Avatar alt="who?" src={profile.img} />{" "}
+                </StyledBadge>
+              </button>
             </div>
           </>
         ) : (
-          <div></div>
+          <div>
+            <Button
+              onClick={() => {
+                dispatch(setOpenSignIn());
+                dispatch(resetOpenSignUp());
+              }}
+            >
+              LogIn
+            </Button>
+            <Button
+              onClick={() => {
+                dispatch(setOpenSignUp());
+                dispatch(resetOpenSignIn());
+              }}
+            >
+              SignUp
+            </Button>
+          </div>
         )}
       </div>
+
+      {profile?.nickName && (
+        <>
+          <div className={styles.core_posts}>
+            <Grid container spacing={4}>
+              {posts
+                .slice(0)
+                .reverse()
+                .map((post) => (
+                  <Grid key={post.id} item xs={12} md={4}>
+                    <Post
+                      postId={post.id}
+                      title={post.title}
+                      loginId={profile.userProfile}
+                      userPost={post.userPost}
+                      imageUrl={post.img}
+                      liked={post.liked}
+                    />
+                  </Grid>
+                ))}
+            </Grid>
+          </div>
+        </>
+      )}
     </div>
   );
 };

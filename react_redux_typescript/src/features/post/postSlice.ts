@@ -107,6 +107,7 @@ export const postSlice = createSlice({
       {
         id: 0,
         title: "",
+        userPost: 0,
         created_on: "",
         img: "",
         liked: [0],
