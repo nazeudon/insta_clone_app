@@ -86,7 +86,7 @@ export const fetchAsyncGetComments = createAsyncThunk(
 );
 
 //新規コメントの作成
-export const fetchAsyncPostComments = createAsyncThunk(
+export const fetchAsyncPostComment = createAsyncThunk(
   "comment/post",
   async (comment: PROPS_COMMENT) => {
     const res = await axios.post(apiUrlComment, comment, {
@@ -117,8 +117,7 @@ export const postSlice = createSlice({
       {
         id: 0,
         text: "",
-        userPost: 0,
-        created_on: "",
+        userComment: 0,
         post: 0,
       },
     ],
@@ -156,7 +155,7 @@ export const postSlice = createSlice({
         comments: action.payload,
       };
     });
-    builder.addCase(fetchAsyncPostComments.fulfilled, (state, action) => {
+    builder.addCase(fetchAsyncPostComment.fulfilled, (state, action) => {
       return {
         ...state,
         comments: [...state.comments, action.payload],
@@ -166,7 +165,7 @@ export const postSlice = createSlice({
       return {
         ...state,
         posts: state.posts.map((post) =>
-          post.id === action.payload ? action.payload : post
+          post.id === action.payload.id ? action.payload : post
         ),
       };
     });

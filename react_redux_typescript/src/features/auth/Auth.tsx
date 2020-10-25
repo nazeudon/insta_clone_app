@@ -23,6 +23,7 @@ import {
   fetchAsyncGetProfs,
   fetchAsyncCreateProf,
 } from "./authSlice";
+import { fetchAsyncGetComments, fetchAsyncGetPosts } from "../post/postSlice";
 
 //モーダルウィンドウの見た目をカスタム
 const customStyles = {
@@ -68,6 +69,8 @@ const Auth: React.FC = () => {
               await dispatch(fetchAsyncCreateProf({ nickName: "anonymous" }));
 
               await dispatch(fetchAsyncGetProfs());
+              await dispatch(fetchAsyncGetPosts());
+              await dispatch(fetchAsyncGetComments());
               await dispatch(fetchAsyncGetMyProf());
             }
             await dispatch(fetchCredEnd());
@@ -172,6 +175,8 @@ const Auth: React.FC = () => {
 
             if (fetchAsyncLogin.fulfilled.match(resultReg)) {
               await dispatch(fetchAsyncGetProfs());
+              await dispatch(fetchAsyncGetPosts());
+              await dispatch(fetchAsyncGetComments());
               await dispatch(fetchAsyncGetMyProf());
             }
             await dispatch(fetchCredEnd());

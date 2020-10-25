@@ -45,5 +45,5 @@ export interface PROPS_POST {
   userPost: number; //投稿ユーザのid
   title: string;
   imageUrl: string;
-  liled: number[];
+  liked: number[];
 }

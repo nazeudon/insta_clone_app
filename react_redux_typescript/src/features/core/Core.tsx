@@ -34,7 +34,7 @@ import {
   fetchAsyncGetComments,
   selectOpenNewPost,
 } from "../post/postSlice";
-import { PostAdd } from "@material-ui/icons";
+import Post from "../post/Post";
 
 const StyledBadge = withStyles((theme) => ({
   badge: {
