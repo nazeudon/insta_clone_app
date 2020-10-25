@@ -34,7 +34,7 @@ const Post: React.FC<PROPS_POST> = ({
   liked,
 }) => {
   const classes = useStyles();
-  const dispatch = useDispatch();
+  const dispatch: AppDispatch = useDispatch();
   const profiles = useSelector(selectProfiles);
   const comments = useSelector(selectComments);
   const [text, setText] = useState("");

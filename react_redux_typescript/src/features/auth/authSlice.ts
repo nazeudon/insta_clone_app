@@ -97,6 +97,7 @@ export const authSlice = createSlice({
     isLoadingAuth: false, //apiにアクセス中か否か
     myprofile: {
       //backendのProfileモデルの内容
+      id: 0,
       nickName: "",
       userProfile: 0,
       created_on: "",
